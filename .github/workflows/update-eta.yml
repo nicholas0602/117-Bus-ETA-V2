@@ -1,13 +1,8 @@
 name: Update Bus ETA
 
 on:
-  push:
-    branches:
-      - main
-
   schedule:
-    - cron: '*/5 * * * *'
-
+    - cron: '17,22,27,32,37,42,47,52,57 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -15,7 +10,6 @@ permissions:
 
 jobs:
   update-eta:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
 
     steps:
