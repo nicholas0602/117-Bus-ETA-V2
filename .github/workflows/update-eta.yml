@@ -24,6 +24,9 @@ jobs:
       - name: Generate eta.json
         run: node update-eta.js
 
+      - name: Show generated eta.json
+        run: cat eta.json
+
       - name: Commit updated eta.json
         run: |
           git config user.name "github-actions[bot]"
