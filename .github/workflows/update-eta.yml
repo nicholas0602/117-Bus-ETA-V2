@@ -2,14 +2,11 @@ name: Update Bus ETA
 
 on:
   schedule:
-    - cron: "2-57/5 * * * *"
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   update-eta:
@@ -17,20 +14,15 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 20
 
       - name: Generate eta.json
         run: node update-eta.js
-
-      - name: Show generated file
-        run: |
-          echo "Generated eta.json:"
-          cat eta.json
 
       - name: Commit updated eta.json
         run: |
