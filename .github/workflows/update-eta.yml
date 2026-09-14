@@ -2,7 +2,7 @@ name: Schedule Test
 
 on:
   schedule:
-    - cron: '42 9 * * *'
+    - cron: '55 9 * * *'
   workflow_dispatch:
 
 jobs:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Show schedule test
+      - name: Test scheduled run
         run: |
-          echo "Scheduled workflow ran successfully"
+          echo "Schedule worked"
           date -u
