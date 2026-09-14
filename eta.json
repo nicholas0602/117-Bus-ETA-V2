@@ -1,0 +1,23 @@
+{
+  "route": "117",
+  "destination": "深水埗",
+  "updated": "2026-09-14T07:33:29.705Z",
+  "bus1": "15:46",
+  "bus2": "16:08",
+  "buses": [
+    {
+      "company": "CTB",
+      "route": "117",
+      "destination": "深水埗(欽州街)",
+      "time": "2026-09-14T07:46:35.000Z",
+      "timeText": "15:46"
+    },
+    {
+      "company": "CTB",
+      "route": "117",
+      "destination": "深水埗(欽州街)",
+      "time": "2026-09-14T08:08:38.000Z",
+      "timeText": "16:08"
+    }
+  ]
+}
