@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>117 ETA Clean</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+--gap: 44px; /* 你自己改呢度就可以調中間 spacing */
+--font-size: 23px;
+--text-color: #000;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+margin: 0;
+padding: 0;
+background: transparent;
+overflow: hidden;
+}
+
+body {
+font-family: "Montserrat", sans-serif;
+-webkit-font-smoothing: antialiased;
+text-rendering: optimizeLegibility;
+}
+
+.eta-wrap {
+display: inline-flex;
+align-items: center;
+gap: var(--gap);
+white-space: nowrap;
+color: var(--text-color);
+background: transparent;
+}
+
+.eta {
+font-family: "Montserrat", sans-serif;
+font-size: var(--font-size);
+line-height: 1;
+font-weight: 700;
+letter-spacing: 0;
+display: inline-block;
+min-width: 0;
+}
+</style>
+</head>
+<body>
+<div id="content" class="eta-wrap">
+<span class="eta">--:--</span>
+<span class="eta">--:--</span>
+</div>
+
+<script>
+const KMB_URL = 'https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/CDDAA8DE60B4EA0E';
+const CTB_URL = 'https://rt.data.gov.hk/v2/transport/citybus/eta/CTB/002453/117';
+const contentEl = document.getElementById('content');
+
+function parseEtaTime(isoString) {
+if (!isoString) return null;
+const d = new Date(isoString);
+return isNaN(d.getTime()) ? null : d;
+}
+
+function formatHHMM(date) {
+const hh = String(date.getHours()).padStart(2, '0');
+const mm = String(date.getMinutes()).padStart(2, '0');
+return `${hh}:${mm}`;
+}
+
+function normalizeKmbItem(item) {
+if (!item || item.route !== '117') return null;
+if (item.dest_tc !== '深水埗(欽州街)') return null;
+const etaDate = parseEtaTime(item.eta);
+if (!etaDate) return null;
+return { time: etaDate, timeText: formatHHMM(etaDate) };
+}
+
+function normalizeCtbItem(item) {
+if (!item || item.route !== '117') return null;
+if (item.dest_tc !== '深水埗(欽州街)') return null;
+const etaDate = parseEtaTime(item.eta);
+if (!etaDate) return null;
+return { time: etaDate, timeText: formatHHMM(etaDate) };
+}
+
+async function fetchJson(url) {
+const res = await fetch(url, { cache: 'no-store' });
+if (!res.ok) throw new Error(`HTTP ${res.status}`);
+return res.json();
+}
+
+function renderTimes(items) {
+const t1 = items[0]?.timeText || '--:--';
+const t2 = items[1]?.timeText || '--:--';
+
+contentEl.innerHTML = `
+<span class="eta">${t1}</span>
+<span class="eta">${t2}</span>
+`;
+}
+
+async function loadEta() {
+try {
+const [kmbJson, ctbJson] = await Promise.all([
+fetchJson(KMB_URL),
+fetchJson(CTB_URL)
+]);
+
+const kmbItems = (kmbJson.data || []).map(normalizeKmbItem).filter(Boolean);
+const ctbItems = (ctbJson.data || []).map(normalizeCtbItem).filter(Boolean);
+
+const merged = [...kmbItems, ...ctbItems]
+.sort((a, b) => a.time - b.time)
+.slice(0, 2);
+
+renderTimes(merged);
+} catch (err) {
+renderTimes([]);
+}
+}
+
+loadEta();
+setInterval(loadEta, 60000);
+</script>
+</body>
+</html>
