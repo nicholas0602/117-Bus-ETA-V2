@@ -1,0 +1,14 @@
+name: Clock Test
+
+on:
+  schedule:
+    - cron: '0,5,10,15,20,25,30,35,40,45,50,55 * * * *'
+  workflow_dispatch:
+
+jobs:
+  clock:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print UTC time
+        run: date -u
