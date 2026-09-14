@@ -1,23 +1,23 @@
 {
   "route": "117",
   "destination": "深水埗",
-  "updated": "2026-09-14T08:35:31.454Z",
-  "bus1": "16:53",
-  "bus2": "17:16",
+  "updated": "2026-09-14T09:13:33.950Z",
+  "bus1": "17:16",
+  "bus2": "17:32",
   "buses": [
-    {
-      "company": "KMB",
-      "route": "117",
-      "destination": "深水埗(欽州街)",
-      "time": "2026-09-14T08:53:04.000Z",
-      "timeText": "16:53"
-    },
     {
       "company": "KMB",
       "route": "117",
       "destination": "深水埗(欽州街)",
       "time": "2026-09-14T09:16:03.000Z",
       "timeText": "17:16"
+    },
+    {
+      "company": "CTB",
+      "route": "117",
+      "destination": "深水埗(欽州街)",
+      "time": "2026-09-14T09:32:09.000Z",
+      "timeText": "17:32"
     }
   ]
 }
